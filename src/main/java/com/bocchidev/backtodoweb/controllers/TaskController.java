@@ -1,10 +1,13 @@
 package com.bocchidev.backtodoweb.controllers;
 
+import com.bocchidev.backtodoweb.entities.EState;
 import com.bocchidev.backtodoweb.entities.TaskEntity;
 import com.bocchidev.backtodoweb.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,11 +38,12 @@ public class TaskController {
     }
 
     @CrossOrigin(originPatterns = "http://localhost:5173/")
-    @PutMapping(path = "/{id}")
-    public String updateTask(@PathVariable Long id, @RequestBody TaskEntity taskEntity){
-        taskService.putTask(id, taskEntity);
-        return "Task updated";
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<TaskEntity> updateOneElement(@PathVariable Long id, @RequestBody TaskUpdateRequest request) {
+        return ResponseEntity.ok(taskService.updateTask(id, request));
     }
+
+    public record TaskUpdateRequest (String task_name, String task_description, LocalDateTime expiration_date, EState task_state) {}
 
     @CrossOrigin(originPatterns = "http://localhost:5173/")
     @DeleteMapping(path = "/{id}")

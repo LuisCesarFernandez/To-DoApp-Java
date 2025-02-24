@@ -2,7 +2,8 @@ package com.bocchidev.backtodoweb.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "task")
@@ -19,10 +20,10 @@ public class TaskEntity {
     private String task_description;
 
     @Column(name = "creation_date", updatable = false)
-    private LocalDate creation_date;
+    private LocalDateTime creation_date;
 
     @Column(name = "expiration_date")
-    private LocalDate expiration_date;
+    private LocalDateTime expiration_date;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "task_state")
@@ -30,7 +31,7 @@ public class TaskEntity {
 
     @PrePersist
     private void assignCreationDate() {
-        this.creation_date = LocalDate.now();
+        this.creation_date = LocalDateTime.now(ZoneId.of("America/Bogota"));
     }
 
     public TaskEntity() {}
@@ -38,8 +39,8 @@ public class TaskEntity {
     public TaskEntity(String task_name,
                       Long id_task,
                       String task_description,
-                      LocalDate creation_date,
-                      LocalDate expiration_date,
+                      LocalDateTime creation_date,
+                      LocalDateTime expiration_date,
                       EState task_state) {
         this.task_name = task_name;
         this.id_task = id_task;
@@ -73,19 +74,19 @@ public class TaskEntity {
         this.task_description = task_description;
     }
 
-    public LocalDate getCreation_date() {
+    public LocalDateTime getCreation_date() {
         return creation_date;
     }
 
-    public void setCreation_date(LocalDate creation_date) {
+    public void setCreation_date(LocalDateTime creation_date) {
         this.creation_date = creation_date;
     }
 
-    public LocalDate getExpiration_date() {
+    public LocalDateTime getExpiration_date() {
         return expiration_date;
     }
 
-    public void setExpiration_date(LocalDate expiration_date) {
+    public void setExpiration_date(LocalDateTime expiration_date) {
         this.expiration_date = expiration_date;
     }
 
